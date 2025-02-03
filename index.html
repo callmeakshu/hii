@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AK Attendance</title>
+  <style>
+    /* General Styles */
+    body {  
+      font-family: 'Arial', sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+
+
+    .container1 {
+      max-width: 1600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.8s ease-out;
+    }
+ 
+
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+
+    /* Page Titles */
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    /* Inputs and Buttons */
+    input[type="text"], input[type="password"], select, input[type="date"] {
+      width: 95%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #4c8eaf;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Back Button Styles */
+    .back-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      cursor: pointer;
+      color: #555;
+      font-size: 14px;
+      background-color: #e0e0e0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #13b91b;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th, td {
+      padding: 10px;
+    }
+
+  </style>
+</head>
+
+
+
+<!-- Splash Screen -->
+<div id="splash-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+  <img src="at.jpg" alt="Splash Screen" style="max-width: 50%; max-height: 50%; position: absolute; transition: transform 3s ease;">
+</div>
+
+<!-- Login Page -->
+<div class="container" id="login-page" style="display: none;">
+  <h1>AK Attendance</h1>
+  <label for="name">Name:</label>
+  <input type="text" id="name" placeholder="Enter your name">
+  <label for="password">Password:</label>
+  <input type="password" id="password" placeholder="Enter your password">
+  <button onclick="login()">Login</button> <br>
+  <p style="display: flex; justify-content: center; ">Don't have an account</p>
+  <a  style="display: flex; justify-content: center;" href="">sign up</a>
+</div>
+
+<!-- sign up page -->
+<div class="container" id="signup-page" style="display: none;">
+  <h1>AK Attendance</h1>
+  <label for="name">Name:</label>
+  <input type="text" id="name" placeholder="Enter your name">
+  <label for="password">Password:</label>
+  <input type="password" id="password" placeholder="Enter your password">
+  <button onclick="login()">signup</button> <br>
+  
+</div>
+
+  <!-- Attendance Page -->
+  <div class="container1" id="attendance-page" style="display: none;">
+    <a href="#" class="back-button" onclick="goBack()">← Back</a>
+    <h2>ATTENDANCE REPORT</h2>
+    <table>
+      <tr>
+        <th>BCA 1st Sem</th> 
+        <th>BCA 2nd Sem</th>
+        <th>BCA 3rd Sem</th>
+        <th>BCA 4th Sem</th>
+        <th>BCA 5th Sem</th>
+        <th>BCA 6th Sem</th>
+      </tr>
+      <tr>
+        <td><button onclick="openSem(1)">Take Attendance</button></td>
+        <td><button onclick="openSem(2)">Take Attendance</button></td>
+        <td><button onclick="openSem(3)">Take Attendance</button></td>
+        <td><button onclick="openSem(4)">Take Attendance</button></td>
+        <td><button onclick="openSem(5)">Take Attendance</button></td>
+        <td><button onclick="openSem(6)">Take Attendance</button></td>
+      </tr>
+    </table>
+    <button onclick="showAddStudentPage()">Add Students</button> <br>
+    <button onclick="viewAttendance()">View Attendance</button> <br>
+
+    <!-- Add this below the "Add Students" button on the Attendance Page -->
+<button onclick="deleteAttendanceRecords()">Delete Records</button> <br>
+
+    <p style="display: flex; align-items: center; justify-content: center; margin: 0;text-align: center;">
+      You can connect with us and ask your queries here</p>
+
+      <a href="https://api.whatsapp.com/send?phone=7975004993" target="_blank">
+        <img src="what.jpg"  style="display: block; margin: auto; width: 50px; height: 50px; left: 50%; border-radius: 50%; object-fit: cover;">
+      </a>
+      
+  </div>
+
+  <!-- Add Student Page -->
+  <div class="container" id="add-student-page" style="display: none;">
+    <a href="#" class="back-button" onclick="goBack()">← Back</a> 
+    <h1>Add Student</h1>
+
+    <label for="student-name">Enter Student Name:</label>
+    <input type="text" id="student-name" placeholder="Student Name">
+    
+    <label for="student-sem">Select Semester:</label>
+    <select id="student-sem">
+      <option value="1">BCA 1st Sem</option> 
+      <option value="2">BCA 2nd Sem</option>
+      <option value="3">BCA 3rd Sem</option>
+      <option value="4">BCA 4th Sem</option>
+      <option value="5">BCA 5th Sem</option>
+      <option value="6">BCA 6th Sem</option>
+    </select>
+    <br>
+    <button onclick="addStudent()">Add new students</button>
+  </div>
+
+  <!-- Attendance Taking Page -->
+  <div class="container" id="sem-attendance-page" style="display: none;">
+    <a href="#" class="back-button" onclick="goBack()">← Back</a>
+    <h1>BCA Semester Attendance</h1>
+    <h2 id="semester-title"></h2>
+    <label for="attendance-date">Select Date:</label>
+    <input type="date" id="attendance-date">
+    <table id="attendance-table">
+      <thead>
+        <tr>
+          <th>Roll No</th>
+          <th>Name</th>
+          <th>Attendance</th>
+        </tr>
+      </thead>
+      <tbody id="attendance-rows"></tbody>
+    </table>
+    <button onclick="saveAttendance()">Save Attendance</button>  <br>
+    <button onclick="downloadAttendanceReport()">Download Attendance Report</button>
+  </div>
+
+  <div class="container" id="view-attendance-page" style="display: none;">
+    <a href="#" class="back-button" onclick="goBack()">← Back</a>
+    <h1>View Attendance</h1>
+    <label for="view-semester">Select Semester:</label>
+    <select id="view-semester">
+      <option value="1">BCA 1st Sem</option>
+      <option value="2">BCA 2nd Sem</option>
+      <option value="3">BCA 3rd Sem</option>
+      <option value="4">BCA 4th Sem</option>
+      <option value="5">BCA 5th Sem</option>
+      <option value="6">BCA 6th Sem</option>
+    </select>
+    <label for="view-date">Select Date:</label>
+    <input type="date" id="view-date">
+    <button onclick="generateAttendanceReport()">Show</button>
+    <button id="download-excel" style="display:none;" onclick="downloadExcel()">Download</button>
+
+    <!-- Show Attendance Data -->
+    <table id="attendance-report-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Roll No</th>
+          <th>Name</th>
+          <th>Attendance</th>
+        </tr>
+      </thead>
+      <tbody id="attendance-report-rows"></tbody>
+    </table>
+  </div>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+  
+
+  
+  <script>
+    let currentPage = 'login';
+    let pageHistory = [];
+
+    function login() {
+      const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+
+      if (name === 'akshay' && password === '193') {
+        alert('Login successful');
+        navigateTo('attendance');
+      } else {
+        alert('Invalid name or password');
+      }
+    }
+
+
+    
+    function navigateTo(page) {
+      pageHistory.push(currentPage);
+      document.getElementById(`${currentPage}-page`).style.display = 'none';
+      document.getElementById(`${page}-page`).style.display = 'block';
+      currentPage = page;
+    }
+
+    function goBack() {
+      if (pageHistory.length > 0) {
+        const previousPage = pageHistory.pop();
+        document.getElementById(`${currentPage}-page`).style.display = 'none';
+        document.getElementById(`${previousPage}-page`).style.display = 'block';
+        currentPage = previousPage;
+      }
+    }
+
+    function openSem(sem) {
+      localStorage.setItem("selectedSem", sem);
+      navigateTo('sem-attendance');
+      loadSemesterAttendance();
+    }
+
+    function showAddStudentPage() {
+      navigateTo('add-student');
+    }
+
+    function addStudent() {
+      const studentName = document.getElementById('student-name').value;
+      const studentSem = document.getElementById('student-sem').value;
+
+      if (studentName && studentSem) {
+        let students = JSON.parse(localStorage.getItem(`sem${studentSem}`)) || [];
+        students.push({ rollNo: students.length + 1, name: studentName });
+        localStorage.setItem(`sem${studentSem}`, JSON.stringify(students));
+
+        alert(`Student ${studentName} added to BCA ${studentSem} Sem.`);
+        navigateTo('attendance');
+      } else {
+        alert('Please fill all the fields.');
+      }
+    }
+
+    function loadSemesterAttendance() {
+      const semester = localStorage.getItem("selectedSem");
+      const selectedDate = document.getElementById('attendance-date').value;
+      document.getElementById('semester-title').innerText = `BCA ${semester} Semester Attendance`;
+
+      const attendanceRows = document.getElementById('attendance-rows');
+      attendanceRows.innerHTML = '';
+
+      const students = JSON.parse(localStorage.getItem(`sem${semester}`)) || [];
+      let attendanceData = JSON.parse(localStorage.getItem(`attendance-${semester}-${selectedDate}`)) || [];
+
+      students.forEach(student => {
+        const attendanceStatus = attendanceData.find(data => data.rollNo === student.rollNo) || { present: false };
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${student.rollNo}</td>
+          <td>${student.name}</td>
+          <td><input type="checkbox" class="attendance-checkbox" ${attendanceStatus.present ? 'checked' : ''}></td>
+        `;
+        attendanceRows.appendChild(row);
+      });
+    }
+
+    function saveAttendance() {
+      const semester = localStorage.getItem("selectedSem");
+      const selectedDate = document.getElementById('attendance-date').value;
+
+      if (!selectedDate) {
+        alert("Please select a date.");
+        return;
+      }
+
+      const attendanceData = [];
+      const rows = document.querySelectorAll('#attendance-rows tr');
+      rows.forEach(row => {
+        const rollNo = row.cells[0].innerText;
+        const name = row.cells[1].innerText;  // Storing name alongside roll number
+        const isPresent = row.cells[2].querySelector('input').checked;
+
+        attendanceData.push({ rollNo, name, present: isPresent });
+      });
+
+      localStorage.setItem(`attendance-${semester}-${selectedDate}`, JSON.stringify(attendanceData));
+      alert('Attendance saved successfully!');
+    }
+
+    function downloadAttendanceReport() {
+      const semester = localStorage.getItem("selectedSem");
+      const selectedDate = document.getElementById('attendance-date').value;
+
+      if (!selectedDate) {
+        alert("Please select a date.");
+        return;
+      }
+
+      let csvContent = "Roll No,Name,Present/Absent\n";
+      const rows = document.querySelectorAll('#attendance-rows tr');
+      rows.forEach(row => {
+        const rollNo = row.cells[0].innerText;
+        const name = row.cells[1].innerText;
+        const isPresent = row.cells[2].querySelector('input').checked ? "Present" : "Absent";
+
+        csvContent += `${rollNo},${name},${isPresent}\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `BCA_Semester_${semester}_Attendance_Report_${selectedDate}.csv`;
+      link.click();
+    }
+
+    function viewAttendance() {
+      navigateTo('view-attendance');
+    }
+
+    function generateAttendanceReport() {
+      const semester = document.getElementById("view-semester").value;
+      const selectedDate = document.getElementById("view-date").value;
+
+      if (!selectedDate || !semester) {
+        alert("Please fill in both semester and date.");
+        return;
+      }
+
+      let attendanceData = JSON.parse(localStorage.getItem(`attendance-${semester}-${selectedDate}`)) || [];
+
+      if (attendanceData.length === 0) {
+        alert("No attendance data available for this semester and date.");
+        return;
+      }
+
+      // Fill the table with the attendance data
+      const attendanceReportTable = document.getElementById('attendance-report-table');
+      const attendanceReportRows = document.getElementById('attendance-report-rows');
+      attendanceReportRows.innerHTML = '';
+
+      attendanceData.forEach(data => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${data.rollNo}</td>
+          <td>${data.name}</td>
+          <td>${data.present ? 'Present' : 'Absent'}</td>
+        `;
+        attendanceReportRows.appendChild(row);
+      });
+
+      // Show the table
+      attendanceReportTable.style.display = 'table';
+
+      // Show download button after generating the report
+      document.getElementById("download-excel").style.display = 'inline-block';
+    }
+
+    function downloadExcel() {
+      const semester = document.getElementById("view-semester").value;
+      const selectedDate = document.getElementById("view-date").value;
+
+      let attendanceData = JSON.parse(localStorage.getItem(`attendance-${semester}-${selectedDate}`)) || [];
+      const ws = XLSX.utils.json_to_sheet(attendanceData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Attendance Report");
+
+      // Download Excel file
+      XLSX.writeFile(wb, `BCA_Semester_${semester}_Attendance_Report_${selectedDate}.xlsx`);
+    }
+
+
+    
+    window.onload = function() {
+  setTimeout(function() {
+    const splashScreen = document.getElementById('splash-screen');
+    const splashImage = splashScreen.querySelector('img');
+    
+    // Move the image down slowly
+    splashImage.style.transform = "translateY(50vh)";  // Move the image 100% of the viewport height downward
+
+    setTimeout(function() {
+      splashScreen.style.display = 'none';  // Hide splash screen after the transition
+      document.getElementById('login-page').style.display = 'block';  // Show the login page after splash disappears
+    }, 2000);  // Wait for the downward transition to complete before hiding the splash screen
+  }, 0);  // Start the splash screen immediately
+
+  // Ensure login page animation is independent of splash screen
+  document.getElementById('login-page').style.animation = "fadeIn 0.8s ease-out";
+};
+
+
+function deleteAttendanceRecords() {
+  const semester = localStorage.getItem("selectedSem");
+  const selectedDate = document.getElementById('attendance-date').value;
+
+
+  // Ask for confirmation before deleting records
+  const confirmDelete = confirm("Are you sure you want to delete all attendance and student records for this date?");
+  
+  if (confirmDelete) {
+    // Delete attendance records for the selected semester and date
+    localStorage.removeItem(`attendance-${semester}-${selectedDate}`);
+    
+    // Delete student data for the selected semester
+    localStorage.removeItem(`sem${semester}`);
+
+    alert("All attendance and student records have been deleted.");
+    
+    // Optionally, reload the page or update the UI
+    loadSemesterAttendance();  // This will reload the attendance table with no data
+  }
+}
+
+
+  </script>
+</body>
+</html>
